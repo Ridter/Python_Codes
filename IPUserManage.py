@@ -3,7 +3,7 @@
 ## @file    ipget.py                                       ##
 ## @date    2014-1-16                                      ##
 ## @author  Ridter                                         ##
-## @Email    zuotonghk@sina.cn                             ##
+## @Email   zuotonghk@gmail.com                            ##
 #############################################################
 import urllib
 import urllib2
