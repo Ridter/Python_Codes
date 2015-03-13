@@ -40,25 +40,11 @@ option   = sys.argv[1]
 passwd   = sys.argv[2]
 
 if option == '--online':
-  if len(passwd) != 32: 
-    print '\n[*] Error: "%s" doesn\'t seem to be a valid MD5 hash "32 bit hexadecimal"' % passwd
+  if len(passwd)  > 32 or 16<len(passwd) <32 or len(passwd)<16: 
+    print '\n[*] Error: "%s" doesn\'t seem to be a valid MD5 ' % passwd
   else:
     try:
       banner()
-      def scanv():
-        site = "http://tool.scanv.com/"
-        rest = 'checkmd5/md5/'
-        para = urllib.urlencode({'md5':passwd}) 
-        req  = urllib2.Request(site+rest)
-        try:
-          fd   = urllib2.urlopen(req, para)
-          data = fd.read()
-          match= re.search(r'("plainText": ")(.+[^>])(", "querySite")', data)
-          if match: print '[-] site: %s\t\t\tPassword: %s' % (site, match.group(2))
-          else: print '[-] site: %s\t\t\tPassword: Not found' % site
-        except urllib2.URLError:  print '[+] site: %s \t\t\t[+] Error: seems to be down' % site
-      scanv()
-
       def navisec():
         site = 'http://md5.navisec.it/'     
         req = urllib2.Request(site)
@@ -90,9 +76,9 @@ if option == '--online':
           fd = urllib2.urlopen(req, para)
           data = fd.read()
           match = re.search(r'(<span id="ctl00_ContentPlaceHolder1_LabelAnswer">)(.+[^>])(<br /><br /><a target=_blank)', data)
-          match2 = re.search(r'(>Purchase</a></span><br)',data)
+          match2 = re.search(r'Found\.But this is a payment record\. Hash-type is md5',data)
           if match: print '[-] site: %s\t\t\t\tPassword: %s' % (site, match.group(2))
-          if match2 : print '[-] site: %s\t\t\t\tYouCanBuyIt!' % site 
+          if match2: print '[-] site: %s\t\t\t\tPassword: You Can Buy It' % (site)
           else: print '[-] site: %s\t\t\t\tPassword: Not found' % site
         except urllib2.URLError: print '[+] site: %s \t\t\t\t[+] Error: seems to be down' % site
       cmd5()      
