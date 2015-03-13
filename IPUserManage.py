@@ -1,6 +1,6 @@
 # coding=utf-8
 #############################################################
-## @file    ipget.py                                       ##
+## @file    IPUserManage.py                                ##
 ## @date    2014-1-16                                      ##
 ## @author  Ridter                                         ##
 ## @Email   zuotonghk@gmail.com                            ##
