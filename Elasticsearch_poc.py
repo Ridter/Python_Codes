@@ -23,7 +23,7 @@ def execute(url,command):
         for i in result:
             print i
     except Exception, e:
-        print e
+        pass
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
