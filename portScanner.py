@@ -10,7 +10,6 @@ def GetQueue(list):
     for p in list:
         PortQueue.put(p)
     return PortQueue
-
 #单IP扫描线程个数
 nThread = 20
 #线程锁
@@ -19,14 +18,14 @@ lock = threading.Lock()
 Timeout = 3.0
 #打开的端口列表
 OpenPort = []
-
+Hosts = []
 class ScanThread(threading.Thread):
     def __init__(self, scanIP):
         threading.Thread.__init__(self)
         self.IP = scanIP
 
     def Ping(self, Port):
-        global OpenPort, lock, Timeout
+        global OpenPort, lock, Timeout,Hosts
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(Timeout)
         address = (self.IP, Port)
@@ -39,6 +38,8 @@ class ScanThread(threading.Thread):
         OpenPort.append(Port)
         if lock.acquire():
             print "IP:%s  Port:%d" % (self.IP, Port)
+            result = self.IP
+            Hosts.append(result)
             lock.release()
         return True
 
@@ -64,7 +65,7 @@ class ScanThreadMulti(ScanThread):
             self.Ping(p)
 
 class Shell(cmd.Cmd):
-    u'''Py Port Scanner 0.1 使用说明：
+    u'''Port Scanner 使用说明：
     port [port..] 设置扫描的端口，用逗号分隔。
         默认：21, 22, 23, 25, 80, 135, 137, 139, 445, 1433, 1502, 3306, 3389, 8080, 9015
         example：port 21,23,25
@@ -79,6 +80,8 @@ class Shell(cmd.Cmd):
     cls 清楚屏幕内容
     listport 打印端口列表
     help 打开本帮助
+    exit 退出
+    print 导出ip列表(用于扫描某个端口)
         '''
     def __init__(self):
         cmd.Cmd.__init__(self)
@@ -92,6 +95,15 @@ class Shell(cmd.Cmd):
 
     def do_help(self, line):
         print self.__doc__
+
+    def do_exit(self,line):
+        exit(0)
+
+    def do_print(self,line):
+        global Hosts
+        fileobject = open("result.txt",'w')
+        for host in Hosts:
+            fileobject.writelines(host+'\n')
 
     #设置端口
     def do_port(self, line):
