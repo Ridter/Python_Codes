@@ -88,7 +88,7 @@ class Shell(cmd.Cmd):
         reload(sys)
         sys.setdefaultencoding('utf-8')
         self.prompt = "Port Scan >>"
-        self.intro = "Py Port Scanner 0.1"
+        self.intro = "Port Scanner"
 
     def do_EOF(self, line):
         return True
@@ -104,6 +104,8 @@ class Shell(cmd.Cmd):
         fileobject = open("result.txt",'w')
         for host in Hosts:
             fileobject.writelines(host+'\n')
+        Hosts=[]
+
 
     #设置端口
     def do_port(self, line):
