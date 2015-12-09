@@ -2,7 +2,6 @@
 # coding=utf8
 # author=evi1m0
 # website=linux.im
-
 '''
     12306 Captcha Picture:
     author: Evi1m0@20150316

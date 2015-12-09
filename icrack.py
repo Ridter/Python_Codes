@@ -1,12 +1,11 @@
 #!/usr/bin/env python
-# coding=utf-8
+#coding:utf-8
 import sys
 import time
 import urllib2
 import urllib 
 import re
 import hashlib
-
 if len(sys.argv) < 2:
   print '\nUsage:'
   print '\t%s --online [hash..] ' % sys.argv[0]

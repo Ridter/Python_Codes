@@ -2,8 +2,6 @@
 # coding=utf8
 # author=evi1m0#ff0000.cc
 # create=20150216
-
-
 import json
 import random
 import requests

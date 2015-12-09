@@ -3,7 +3,6 @@ import urllib
 import urllib2
 import json
 import sys
-
 def execute(url,command):
     parameters = {"size":1,
                     "script_fields":
