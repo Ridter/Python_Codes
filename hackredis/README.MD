@@ -1,5 +1,5 @@
 # hackredis
-之前@Matt写了一个批量扫描redis未授权的[脚本](https://github.com/code-scan/rescan)。然后我根据[Redis未授权访问导致可远程获得服务器权限](http://www.freebuf.com/vuls/85021.html)写了一个批量获取的脚本。暂时还没写多线程，可能写的很烂，凑活用吧。
+之前@Matt写了一个批量扫描redis未授权的[脚本](https://github.com/code-scan/rescan)。然后我根据[Redis未授权访问导致可远程获得服务器权限](http://www.freebuf.com/vuls/85021.html)写了一个批量获取的脚本。暂时还没写多线程，写的很烂，凑活用吧。
 
 **安装依赖**
 ```
@@ -32,4 +32,5 @@ optional arguments:
 之后将ip列表填入ip.txt，然后就可以跑了。
 成功的将会输出到success.txt,执行成功但是ssh连接失败的会存储在unconnect.txt，操作失败的会存储在fail.txt
 测试截图：
+
 ![Alt text](./1449803881546.png)
