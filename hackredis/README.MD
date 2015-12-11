@@ -30,7 +30,8 @@ optional arguments:
 ```
 
 之后将ip列表填入ip.txt，然后就可以跑了。
-成功的将会输出到success.txt,执行成功但是ssh连接失败的会存储在unconnect.txt，操作失败的会存储在fail.txt
+成功的将会输出到success.txt,执行成功但是ssh连接失败的会存储在unconnect.txt，操作失败的会存储在fail.txt。
+
 测试截图：
 
 ![Alt text](./1449803881546.png)
