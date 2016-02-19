@@ -7,34 +7,49 @@ import warnings
 import sys
 import threading  
 import os
+from bs4 import BeautifulSoup
 reload(sys)  
 sys.setdefaultencoding('utf8')
 warnings.filterwarnings("ignore")
-pagescount = 21240
+pagescount = 8800 #总页数
 userlinks = []
 havedonepage = []
 # page 21240
-counts = 0 #计数器
+counts = 1 #计数器
 done = []
 test = []
-done1=[17974,17981,1000000000]
-def getdata(page,num):
-  global counts
+username = []
+jigou=[]
+job=[]
+phone=[]
+email=[]
+def getdata(page):
+  global counts,username,jigou,job,phone,email
   global userlinks
-  urls = "https://xxxx.com/index.php?module=CaiWu&type=0&userid=&startdate=&enddate=&page="+str(page)
+  urls = "http://xxxxxx.com.cn//oanames.nsf/PeopleByName?OpenView&Start="+str(page)
   headers = {'content-type': 'application/json',
            'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:22.0) Gecko/20100101 Firefox/22.0',
-           'Cookie':'cookie'}
+           'Cookie':'tcoa=%u767D%u5A67; LtpaToken=AAECAzU2QzZBMUY5NTZDNzJFOTlDTj0TsNcT5rovT1U9amZnc29hL089ZmF3n/fWy6VhzkyPohmO4UbX0eN01lI='}
   r = requests.get(urls,verify=False,headers=headers)
-  data = re.compile(r'<a href="(.*?)" target=')
   html = r.text
-  result = data.findall(html)
+  soup = BeautifulSoup(html)
+  table = soup.find('table', attrs={'border':'0', 'cellpadding':'2', 'cellspacing':'0'})
+  for raws in table.findAll('tr'):
+    try:
+      username = raws.findAll('td')[0:1][0].findAll('a')[0:1][0].text
+      jigou = raws.findAll('td')[1:2][0].text
+      job = raws.findAll('td')[2:3][0].text
+      phone = raws.findAll('td')[3:4][0].text
+      email =  raws.findAll('td')[4:5][0].text
+    except:
+      pass
+    write(username,jigou,job,phone,email)
   print "[*] reading..正在写第"+str(page)+"页"+"第"+str(counts)+"条数据"
-  write(result,num)
+  counts = counts+1
   havedonepage.append(page)
   countpage(havedonepage)
-  counts = counts+1
-    
+  
+#将已经读取的页码写入1.txt，过滤已读取页码
 def reading():
   global done
   f = open('1.txt','r')
@@ -42,15 +57,13 @@ def reading():
   done = []
   for page in pages:
     done.append(page.strip('\n'))
-  print done
 
 def split(list):
-  num = list[-1]
   for j in list:
-    if str(j) in done:
+    if str(j+1) in done:
       print '[*] I have writed !\n'
     else:
-      getdata(j,num)
+      getdata(j+1)
   time.sleep(1)
     
 
@@ -63,14 +76,17 @@ def thread_main(count):
     #t.join()
   print "current has %d threads" % (threading.activeCount() - 1)
 
-  
-def write(result,num):
-  filesname = str(num)+'links.txt'
+#将数据写入文件
+def write(username,jigou,job,phone,email):
+  filesname = 'users.txt'
   file_object = open(filesname,'a')
-  for url in result:
-    file_object.write(url+'\n')
+  try:
+    file_object.write(username+'\t'+jigou+'\t'+job+'\t'+phone+'\t'+email+'\n')
+  except:
+    pass
   file_object.close()
 
+#将随机读取的页码存入文件  
 def countpage(pages):
   filesname = "havedown.txt"
   file_object = open(filesname, 'w')
@@ -80,14 +96,13 @@ def countpage(pages):
 
 
 def main():
-  thread_main(1500)
+  thread_main(500)
 
 if __name__ == "__main__":
-    try:
-        main()
-    except:
-        print "Error"
-
+  try:
+    main()
+  except:
+    print 'Error~'
 
 
 
